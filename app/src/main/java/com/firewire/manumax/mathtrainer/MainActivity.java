@@ -1,5 +1,6 @@
 package com.firewire.manumax.mathtrainer;
 
+import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,6 +39,12 @@ public class MainActivity extends AppCompatActivity {
     int score=0;
     int numberOfQuetions=0;
 
+    public void playAudio(){
+
+        final MediaPlayer mp = MediaPlayer.create(this, R.raw.cat);
+        mp.start();
+    }
+
     public void playAgain(View view){
         score=0;
         numberOfQuetions=0;
@@ -49,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         btnplayAgain.setVisibility(View.INVISIBLE);
 
         generateQuestion();
+        playAudio();
 
         new CountDownTimer(60200,1000){
 
@@ -129,6 +137,8 @@ public class MainActivity extends AppCompatActivity {
         game.setVisibility(RelativeLayout.VISIBLE);
 
         playAgain(findViewById(R.id.btnplayAgain));
+
+        playAudio();
     }
 
     @Override
@@ -151,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
         pointsTextView=(TextView)findViewById(R.id.pointsTextView);
 
+        //playAudio();
 
 
 
