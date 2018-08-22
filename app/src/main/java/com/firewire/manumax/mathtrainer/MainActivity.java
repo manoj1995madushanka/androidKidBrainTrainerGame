@@ -1,10 +1,12 @@
 package com.firewire.manumax.mathtrainer;
 
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -19,16 +21,50 @@ public class MainActivity extends AppCompatActivity {
     Button button1;
     Button button2;
     Button button3;
+    Button btnplayAgain;
 
     TextView resultTextView;
     TextView pointsTextView;
     TextView sumTextView;
+    TextView timerTextView;
+
+    RelativeLayout game;
 
     ArrayList<Integer> answers=new ArrayList<Integer>();
+
+    //String operation[]={"+",}
 
     int locationOfCorrectAnswer;
     int score=0;
     int numberOfQuetions=0;
+
+    public void playAgain(View view){
+        score=0;
+        numberOfQuetions=0;
+
+        timerTextView.setText("60s");
+        pointsTextView.setText("0/0");
+        resultTextView.setText("");
+
+        btnplayAgain.setVisibility(View.INVISIBLE);
+
+        generateQuestion();
+
+        new CountDownTimer(60200,1000){
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timerTextView.setText(String.valueOf(millisUntilFinished/1000)+"s");
+            }
+
+            @Override
+            public void onFinish() {
+                btnplayAgain.setVisibility(View.VISIBLE);
+                timerTextView.setText("0s");
+                resultTextView.setText("Your Score : "+ Integer.toString(score)+" / "+Integer.toString(numberOfQuetions));
+            }
+        }.start();
+    }
 
     public void generateQuestion(){
         Random rand=new Random();
@@ -76,8 +112,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void start(View view){
-        //btnGo.setVisible()
+
         btnGo.setVisibility(View.INVISIBLE);
+        game.setVisibility(RelativeLayout.VISIBLE);
+
+        playAgain(findViewById(R.id.btnplayAgain));
     }
 
     @Override
@@ -91,14 +130,16 @@ public class MainActivity extends AppCompatActivity {
         button1=(Button)findViewById(R.id.button1);
         button2=(Button)findViewById(R.id.button2);
         button3=(Button)findViewById(R.id.button3);
+        btnplayAgain=(Button)findViewById(R.id.btnplayAgain);
+        game=(RelativeLayout)findViewById(R.id.game);
+
+        timerTextView=(TextView)findViewById(R.id.timerTextView);
 
         resultTextView=(TextView)findViewById(R.id.resultTextView);
 
         pointsTextView=(TextView)findViewById(R.id.pointsTextView);
 
 
-
-        generateQuestion();
 
 
     }
