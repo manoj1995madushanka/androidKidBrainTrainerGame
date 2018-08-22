@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<Integer> answers=new ArrayList<Integer>();
 
-    //String operation[]={"+",}
+
 
     int locationOfCorrectAnswer;
     int score=0;
@@ -67,10 +67,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void generateQuestion(){
+
+        String[] operation={"+","-"};
+        int mathOp;
+
+
+
         Random rand=new Random();
         int a=rand.nextInt(16);
         int b=rand.nextInt(16);
-        sumTextView.setText(Integer.toString(a)+" + "+Integer.toString(b));
+        mathOp=rand.nextInt(2);
+        String cal=operation[mathOp];
+        sumTextView.setText(Integer.toString(a)+ " "+operation[mathOp]+" " +Integer.toString(b));
 
         locationOfCorrectAnswer=rand.nextInt(4);
 
@@ -80,11 +88,15 @@ public class MainActivity extends AppCompatActivity {
 
         for(int i=0;i<4;i++){
             if(i==locationOfCorrectAnswer){
-                answers.add(a+b);
+                if(cal=="+"){
+                    answers.add(a+b);
+                }else{
+                    answers.add(a-b);
+                }
             }else{
 
                 incorrectAnswer=rand.nextInt(31);
-                while(incorrectAnswer==(a+b)){
+                while((incorrectAnswer==(a+b)) || (incorrectAnswer==(a-b))){
                     incorrectAnswer=rand.nextInt(31);
                 }
                 answers.add(incorrectAnswer);
